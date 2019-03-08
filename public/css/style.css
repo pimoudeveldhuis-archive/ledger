@@ -1,0 +1,30 @@
+.monospaced {
+    font-family: 'Inconsolata', monospace;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.currency {
+    font-weight: bold;
+}
+
+.currency.deposit, .currency.green, .currency .green {
+    color: green;
+}
+
+.currency.withdrawal, .currency.red, .currency .red {
+    color: red;
+}
+
+.loader {
+    display: none;
+
+    margin: 20px;
+    text-align: center;
+}
+
+footer {
+    font-size: 12px;
+}

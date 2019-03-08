@@ -1,0 +1,23 @@
+<?php
+return [
+    'account_match' => 'Rekeningnummer komt overeen met',
+    'account_match_blocking' => '* Rekeningnummer komt overeen met',
+    'account_not_match_blocking' => '* Rekeningnummer komt niet overeen met',
+    'contra_account_match' => 'Tegenrekening is gelijk aan',
+    'contra_account_not_match_blocking' => '* Tegenrekening is niet gelijk aan',
+    'contra_account_name_match' => 'Naam tegenrekening is gelijk aan',
+    'contra_account_name_contains' => 'Naam tegenrekening bevat',
+    'contra_account_name_not_contains_blocking' => '* Naam tegenrekening bevat niet',
+    'amount_smaller_blocking' => '* Bedrag kleiner dan',
+    'amount_bigger_blocking' => '* Bedrag groter dan',
+    'type_match' => 'Type transactie gelijk aan',
+    'type_no_match_blocking' => '* Type transactie niet gelijk aan',
+    'dw_match' => 'Bijschrijving / Afschrijving gelijk aan',
+    'dw_not_match_blocking' => '* Bijschrijving / Afschrijving niet gelijk aan',
+    'currency_match_blocking' => '* Valuta gelijk aan',
+    'currency_not_match_blocking' => '* Valuta niet gelijk aan',
+    'description_contains' => 'Omschrijving bevat',
+    'description_not_contains_blocking' => '* Omschrijving bevat niet',
+    'reference_match' => 'Referentie gelijk aan',
+    'reference_not_match_blocking' => '* Referentie niet gelijk aan',
+];

@@ -1,12 +1,24 @@
 {
-    "name": "laravel/laravel",
+    "name": "innospan/ledger",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Ledger banking tool.",
     "keywords": [
-        "framework",
-        "laravel"
+        "innospan",
+        "ledger",
+        "banking"
     ],
     "license": "MIT",
+    "support": {
+        "issues": "https://github.com/innospan/ledger/issues",
+        "source": "https://github.com/innospan/ledger"
+    },
+    "authors": [
+        {
+            "name": "Pim Oude Veldhuis",
+            "email": "pim@odvh.nl",
+            "homepage": "https://pim.odvh.nl"
+        }
+    ],
     "require": {
         "php": "^7.1.3",
         "fideloper/proxy": "^4.0",

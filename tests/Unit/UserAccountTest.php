@@ -11,7 +11,7 @@ class UserAccountTest extends TestCase
     use RefreshDatabase;
     
     /**
-     * A basic unit test example.
+     * Testing instance creation.
      *
      * @return void
      */

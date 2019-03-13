@@ -1,0 +1,27 @@
+language: php
+
+php:
+  - 7.2
+
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - libmysqlclient-dev
+      - libmysqlclient20
+      - mysql-community-client
+      - mysql-common
+      - mysql-community-server
+
+before_script:
+  - cp .env.travis .env
+  - mysql -e 'create database homestead;'
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+
+script:
+  - vendor/bin/phpunit
+  - vendor/bin/phpcs --standard=PSR1,PSR2 --colors --runtime-set ignore_warnings_on_exit 1 app
+

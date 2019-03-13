@@ -64,8 +64,8 @@ class Account extends Model
      */
     public function getAccountAttribute($value)
     {
-        // If there is no secret key in session, return the encrypted value
-        if (session('secretkey') === null) {
+        // If the application is running in debug mode, or there secretkey session is empty then return the raw value
+        if (config('app.debug') === true || session('secretkey') === null) {
             return $value;
         }
     
@@ -81,9 +81,13 @@ class Account extends Model
      */
     public function setAccountAttribute($value)
     {
-        // Seal $value and save it
-        $this->attributes['account'] =
-            ($value !== null) ? \EncryptionHelper::seal($this->user->publickey, $value) : null;
+        // If the app is in debug mode store the raw string, if not seal the string with the public key
+        if (config('app.debug') === true) {
+            $this->attributes['account'] = $value;
+        } else {
+            $this->attributes['account'] =
+                ($value !== null) ? \EncryptionHelper::seal($this->user->publickey, $value) : null;
+        }
     }
 
     /**
@@ -94,8 +98,8 @@ class Account extends Model
      */
     public function getNameAttribute($value)
     {
-        // If there is no secret key in session, return the encrypted value
-        if (session('secretkey') === null) {
+        // If the application is running in debug mode, or there secretkey session is empty then return the raw value
+        if (config('app.debug') === true || session('secretkey') === null) {
             return $value;
         }
     
@@ -111,8 +115,13 @@ class Account extends Model
      */
     public function setNameAttribute($value)
     {
-        // Seal $value and save it
-        $this->attributes['name'] = ($value !== null) ? \EncryptionHelper::seal($this->user->publickey, $value) : null;
+        // If the app is in debug mode store the raw string, if not seal the string with the public key
+        if (config('app.debug') === true) {
+            $this->attributes['name'] = $value;
+        } else {
+            $this->attributes['name'] =
+                ($value !== null) ? \EncryptionHelper::seal($this->user->publickey, $value) : null;
+        }
     }
 
     /**
@@ -123,8 +132,8 @@ class Account extends Model
      */
     public function getDescriptionAttribute($value)
     {
-        // If there is no secret key in session, return the encrypted value
-        if (session('secretkey') === null) {
+        // If the application is running in debug mode, or there secretkey session is empty then return the raw value
+        if (config('app.debug') === true || session('secretkey') === null) {
             return $value;
         }
     
@@ -140,9 +149,13 @@ class Account extends Model
      */
     public function setDescriptionAttribute($value)
     {
-        // Seal $value and save it
-        $this->attributes['description'] =
-            ($value !== null) ? \EncryptionHelper::seal($this->user->publickey, $value) : null;
+        // If the app is in debug mode store the raw string, if not seal the string with the public key
+        if (config('app.debug') === true) {
+            $this->attributes['description'] = $value;
+        } else {
+            $this->attributes['description'] =
+                ($value !== null) ? \EncryptionHelper::seal($this->user->publickey, $value) : null;
+        }
     }
 
     /**

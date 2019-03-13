@@ -87,13 +87,13 @@ class Transaction extends Model
      */
     public function getDescriptionAttribute($value)
     {
-        // If there is no secret key in session, return the encrypted value
-        if (session('secretkey') === null) {
+        // If the application is running in debug mode, or there secretkey session is empty then return the raw value
+        if (config('app.debug') === true || session('secretkey') === null) {
             return $value;
         }
     
-        // If $value is not null unseal it and return it, else return null
-        return ($value !== null) ? \EncryptionHelper::unseal(session('secretkey'), $value) : null;
+        // Unseal the encrypted value and return it
+        return \EncryptionHelper::unseal(session('secretkey'), $value);
     }
 
     /**
@@ -104,9 +104,14 @@ class Transaction extends Model
      */
     public function setDescriptionAttribute($value)
     {
-        // If the $value is not null, seal and save it, else save null
-        $this->attributes['description'] =
-            ($value !== null) ? \EncryptionHelper::seal($this->user->publickey, $value) : null;
+        // If the app is in debug mode store the raw string, if not seal the string with the public key
+        if ($value === null) {
+            $this->attributes['description'] = null;
+        } elseif (config('app.debug') === true) {
+            $this->attributes['description'] = $value;
+        } else {
+            $this->attributes['description'] = \EncryptionHelper::seal($this->publickey, $value);
+        }
     }
 
     /**
@@ -117,13 +122,13 @@ class Transaction extends Model
      */
     public function getReferenceAttribute($value)
     {
-        // If there is no secret key in session, return the encrypted value
-        if (session('secretkey') === null) {
+        // If the application is running in debug mode, or there secretkey session is empty then return the raw value
+        if (config('app.debug') === true || session('secretkey') === null) {
             return $value;
         }
     
-        // If $value is not null unseal it and return it, else return null
-        return ($value !== null) ? \EncryptionHelper::unseal(session('secretkey'), $value) : null;
+        // Unseal the encrypted value and return it
+        return \EncryptionHelper::unseal(session('secretkey'), $value);
     }
 
     /**
@@ -134,9 +139,14 @@ class Transaction extends Model
      */
     public function setReferenceAttribute($value)
     {
-        // If the $value is not null, seal and save it, else save null
-        $this->attributes['reference'] =
-            ($value !== null) ? \EncryptionHelper::seal($this->user->publickey, $value) : null;
+        // If the app is in debug mode store the raw string, if not seal the string with the public key
+        if ($value === null) {
+            $this->attributes['reference'] = null;
+        } elseif (config('app.debug') === true) {
+            $this->attributes['reference'] = $value;
+        } else {
+            $this->attributes['reference'] = \EncryptionHelper::seal($this->publickey, $value);
+        }
     }
 
     /**
@@ -147,13 +157,13 @@ class Transaction extends Model
      */
     public function getContraAccountAttribute($value)
     {
-        // If there is no secret key in session, return the encrypted value
-        if (session('secretkey') === null) {
+        // If the application is running in debug mode, or there secretkey session is empty then return the raw value
+        if (config('app.debug') === true || session('secretkey') === null) {
             return $value;
         }
     
-        // If $value is not null unseal it and return it, else return null
-        return ($value !== null) ? \EncryptionHelper::unseal(session('secretkey'), $value) : null;
+        // Unseal the encrypted value and return it
+        return \EncryptionHelper::unseal(session('secretkey'), $value);
     }
 
     /**
@@ -164,9 +174,14 @@ class Transaction extends Model
      */
     public function setContraAccountAttribute($value)
     {
-        // If the $value is not null, seal and save it, else save null
-        $this->attributes['contra_account'] =
-            ($value !== null) ? \EncryptionHelper::seal($this->user->publickey, $value) : null;
+        // If the app is in debug mode store the raw string, if not seal the string with the public key
+        if ($value === null) {
+            $this->attributes['contra_account'] = null;
+        } elseif (config('app.debug') === true) {
+            $this->attributes['contra_account'] = $value;
+        } else {
+            $this->attributes['contra_account'] = \EncryptionHelper::seal($this->publickey, $value);
+        }
     }
 
     /**
@@ -177,13 +192,13 @@ class Transaction extends Model
      */
     public function getContraAccountNameAttribute($value)
     {
-        // If there is no secret key in session, return the encrypted value
-        if (session('secretkey') === null) {
+        // If the application is running in debug mode, or there secretkey session is empty then return the raw value
+        if (config('app.debug') === true || session('secretkey') === null) {
             return $value;
         }
     
-        // If $value is not null unseal it and return it, else return null
-        return ($value !== null) ? \EncryptionHelper::unseal(session('secretkey'), $value) : null;
+        // Unseal the encrypted value and return it
+        return \EncryptionHelper::unseal(session('secretkey'), $value);
     }
 
     /**
@@ -194,9 +209,14 @@ class Transaction extends Model
      */
     public function setContraAccountNameAttribute($value)
     {
-        // If the $value is not null, seal and save it, else save null
-        $this->attributes['contra_account_name'] =
-            ($value !== null) ? \EncryptionHelper::seal($this->user->publickey, $value) : null;
+        // If the app is in debug mode store the raw string, if not seal the string with the public key
+        if ($value === null) {
+            $this->attributes['contra_account_name'] = null;
+        } elseif (config('app.debug') === true) {
+            $this->attributes['contra_account_name'] = $value;
+        } else {
+            $this->attributes['contra_account_name'] = \EncryptionHelper::seal($this->publickey, $value);
+        }
     }
 
     public function original()

@@ -68,10 +68,13 @@ class InstallController extends Controller
         }
 
         // Create the banks
-        $banks = [
-            ['name' => 'ING', 'bic' => 'INGBNL2A', 'country' => 'NL', 'bankcode' => 'INGB'],
-            ['name' => 'Rabobank', 'bic' => 'RABONL2U', 'country' => 'NL', 'bankcode' => 'RABO'],
-        ];
+        $banks = json_decode(file_get_contents('https://innospan.github.io/ledger-data/banks.txt'), true);
+        
+        if ($banks === null || !is_array($banks)) {
+            return redirect()->route('install')
+                ->withErrors(['name' => 'Er is iets mis gegaan tijdens de installatie.'])
+                ->withInput();
+        }
 
         foreach ($banks as $bank) {
             try {
@@ -86,41 +89,28 @@ class InstallController extends Controller
             }
         }
 
-        // Create the bank import configuration
-        \App\Models\ImportConfiguration::create([
-            'name' => 'ING',
-            'data' => (object) [
-                'dw' => [
-                    'deposit' => 'Bij',
-                    'withdrawal' => 'Af',
-                ],
-                'columns' => [
-                    'dw' => 5,
-                    'type' => 4,
-                    'amount' => 6,
-                    'account' => 2,
-                    'currency' => null,
-                    'book_date' => 0,
-                    'reference' => null,
-                    'description' => 8,
-                    'contra_account' => 3,
-                    'contra_account_name' => 1,
-                ],
-                'currency' => 'EUR',
-                'date_format' => 'Ymd',
-                'header_lines' => [
-                    "\"Datum\",\"Naam / Omschrijving\",\"Rekening\",\"Tegenrekening\",\"Code\",\"Af Bij\",\"Bedrag (EUR)\",\"MutatieSoort\",\"Mededelingen\"",
-                ],
-                'amount_format' => [
-                    'prefix' => 'EUR ',
-                    'decimals' => 2,
-                    'dec_point' => ',',
-                    'thousands_sep' => '',
-                ],
-                'line_delimiter' => '\r\n',
-                'column_delimiter' => ',',
-            ],
-        ]);
+        // Create the importconfigurations
+        $importconfigurations = json_decode(
+            file_get_contents('https://innospan.github.io/ledger-data/importconfigurations.txt'),
+            true
+        );
+        
+        if ($importconfigurations === null || !is_array($importconfigurations)) {
+            return redirect()->route('install')
+                ->withErrors(['name' => 'Er is iets mis gegaan tijdens de installatie.'])
+                ->withInput();
+        }
+
+        foreach ($importconfigurations as $importconfiguration) {
+            try {
+                \App\Models\ImportConfiguration::updateOrCreate([
+                    'name' => $importconfiguration['name'],
+                ], [
+                    'data' => $importconfiguration['data'],
+                ]);
+            } catch (PDOException $e) {
+            }
+        }
 
         // Check whether the account number actually belongs to a bank
         $found_bank_by_account = null;
@@ -250,7 +240,10 @@ class InstallController extends Controller
         return redirect()->route('login')->with([
             '_alert' => [
                 'type' => 'success',
-                'msg' => 'Installatie afgerond, u kunt hieronder inloggen. De recovery key voor uw installatie is: '. $recoverykey .'. Sla deze veilig op, want wanneer u uw wachtwoord kwijt raakt is dit de enige manier om uw data terug te halen.'
+                'msg' => 'Installatie afgerond, u kunt hieronder inloggen. De recovery key 
+                    voor uw installatie is: '. $recoverykey .'. Sla deze veilig op, want 
+                    wanneer u uw wachtwoord kwijt raakt is dit de enige manier om uw data 
+                    terug te halen.'
             ]
         ]);
     }

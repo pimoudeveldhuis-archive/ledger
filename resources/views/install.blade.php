@@ -23,6 +23,10 @@
     <div class="login-box">
         <div class="login-logo"><a href="{{ route('install') }}"><b>{{ config('app.name') }} installatie</b></a></div>
         <div class="login-box-body">
+            @if(session('_alert'))
+                <div class="alert alert-{{ session('_alert')['type'] }}">{{ session('_alert')['msg'] }}</div>
+            @endif
+
             <p class="login-box-msg">Vul de onderstaande velden in om uw installatie af te ronden en in te loggen.</p>
 
             <form method="post" action="{{ route('do-install') }}">

@@ -68,11 +68,17 @@ class InstallController extends Controller
         }
 
         // Create the banks
-        $banks = json_decode(file_get_contents('https://innospan.github.io/ledger-data/banks.txt'), true);
+        $banks = json_decode(
+            @file_get_contents('https://innospan.github.io/ledger-data/banks.txt'),
+            true
+        );
         
         if ($banks === null || !is_array($banks)) {
             return redirect()->route('install')
-                ->withErrors(['name' => 'Er is iets mis gegaan tijdens de installatie.'])
+                ->with(['_alert' => [
+                    'type' => 'danger',
+                    'msg' => 'De bank configuraties konden niet worden geladen. Controleer uw internetverbinding.'
+                ]])
                 ->withInput();
         }
 
@@ -91,13 +97,16 @@ class InstallController extends Controller
 
         // Create the importconfigurations
         $importconfigurations = json_decode(
-            file_get_contents('https://innospan.github.io/ledger-data/importconfigurations.txt'),
+            @file_get_contents('https://innospan.github.io/ledger-data/importconfigurations.txt'),
             true
         );
         
         if ($importconfigurations === null || !is_array($importconfigurations)) {
             return redirect()->route('install')
-                ->withErrors(['name' => 'Er is iets mis gegaan tijdens de installatie.'])
+                ->with(['_alert' => [
+                    'type' => 'danger',
+                    'msg' => 'De importconfiguraties konden niet worden geladen. Controleer uw internetverbinding.'
+                ]])
                 ->withInput();
         }
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * Login controller
+ * User controller
  *
- * Displays the login form and handles the logging in and out.
+ * Displays the login form, handles the logging in and out and the user recovery.
  *
  * @package App\Http\Controllers
  * @author Pim Oude Veldhuis <pim@odvh.nl>
@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 
 /**
- * Class LoginController
+ * Class UserController
  */
-class LoginController extends Controller
+class UserController extends Controller
 {
     /**
      * Checks (and caches) whether the installer is needed, if so then redirect
@@ -88,5 +88,35 @@ class LoginController extends Controller
 
         // Redirect to login
         return redirect()->route('login');
+    }
+    
+    public function recovery()
+    {
+        return View('recovery');
+    }
+
+    public function doRecovery(Request $request)
+    {
+        // Lookup user by email address
+        $user = \UserHelper::find($request->input('email'));
+        if ($user !== null) {
+            // Retrieve the secret key using the recovery key instead of the password
+            $secretkey = \EncryptionHelper::decrypt($request->input('recovery'), $user->recoverykey);
+
+            if ($secretkey === false) {
+                return redirect()->route('recovery')
+                    ->withErrors(['account' => 'De herstelcode is niet correct.'])
+                    ->withInput();
+            }
+
+            // Store the users secret key in the session
+            session(['secretkey' => $secretkey]);
+
+            // Authenticate the user
+            Auth::login($user);
+
+            // Redirect the user to the dashboard
+            return redirect()->intended('/');
+        }
     }
 }

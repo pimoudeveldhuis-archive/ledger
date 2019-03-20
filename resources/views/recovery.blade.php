@@ -21,7 +21,7 @@
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
-        <div class="login-logo"><a href="{{ route('login') }}"><b>Inloggen</b></a></div>
+        <div class="login-logo"><a href="{{ route('recovery') }}"><b>Wachtwoord herstel</b></a></div>
         <div class="login-box-body">
 
             @if($errors->any())
@@ -30,7 +30,7 @@
                 <div class="alert alert-{{ session('_alert')['type'] }}">{{ session('_alert')['msg'] }}</div>
             @endif
 
-            <form method="post" action="{{ route('do-login') }}">
+            <form method="post" action="{{ route('do-recovery') }}">
                 @csrf
 
                 <div class="form-group has-feedback">
@@ -39,15 +39,12 @@
                 </div>
                 
                 <div class="form-group has-feedback">
-                    <input name="password" type="password" class="form-control" placeholder="Wachtwoord" />
+                    <input name="recovery" type="text" class="form-control" placeholder="Recovery key" />
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-6 text-left">
-                        <a href="{{ route('recovery') }}" class="btn btn-primary btn-flat">Wachtwoord vergeten<a>
-                    </div>
-                    <div class="col-xs-6 text-right">
+                    <div class="col-xs-12 text-right">
                         <button type="submit" class="btn btn-success btn-flat">Verder</button>
                     </div>
                 </div>

@@ -15,9 +15,12 @@
 Route::get('/', 'HomeController@index')->name('home');
 
 // Login & logout
-Route::get('login', 'LoginController@index')->name('login');
-Route::post('login', 'LoginController@doLogin')->name('do-login');
-Route::get('logout', 'LoginController@doLogout')->name('do-logout');
+Route::get('login', 'UserController@index')->name('login');
+Route::post('login', 'UserController@doLogin')->name('do-login');
+Route::get('logout', 'UserController@doLogout')->name('do-logout');
+
+Route::get('recovery', 'UserController@recovery')->name('recovery');
+Route::post('recovery', 'UserController@doRecovery')->name('do-recovery');
 
 // Transactions
 Route::get('transactions', 'TransactionController@index')->name('transactions');

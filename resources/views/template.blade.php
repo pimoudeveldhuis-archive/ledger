@@ -87,6 +87,7 @@
                         </li>
 
                         <!-- <li><a href="{{ route('home') }}"><i class="fa fa-tags"></i> <span>Tags</span></a></li> -->
+                        <li><a href="{{ route('settings') }}"><i class="fa fa-cog"></i> <span>Instellingen</span></a></li>
                         <li><a href="{{ route('do-logout') }}"><i class="fa fa-lock"></i> <span>Uitloggen</span></a></li>
                     </ul>
                 </section>

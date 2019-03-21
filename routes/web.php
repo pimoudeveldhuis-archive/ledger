@@ -22,6 +22,10 @@ Route::get('logout', 'UserController@doLogout')->name('do-logout');
 Route::get('recovery', 'UserController@recovery')->name('recovery');
 Route::post('recovery', 'UserController@doRecovery')->name('do-recovery');
 
+// User settings
+Route::get('settings', 'UserController@settings')->name('settings');
+Route::post('settings/{key}', 'UserController@doSettings')->name('do-settings');
+
 // Transactions
 Route::get('transactions', 'TransactionController@index')->name('transactions');
 Route::get('transaction/delete/{id}', 'TransactionController@doDelete')->name('transaction-do-delete');

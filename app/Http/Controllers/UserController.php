@@ -235,7 +235,9 @@ class UserController extends Controller
             ]);
     
             // Check whether the current password is correct and whether there is a secretkey in session currently
-            if (Hash::check($request->input('password'), Auth::user()->authentication->data) && session('secretkey') !== null) {
+            if (Hash::check($request->input('password'), Auth::user()->authentication->data)
+                && session('secretkey') !== null
+            ) {
                 // Create a new recovery key
                 $recoverykey = \EncryptionHelper::randomString(8).'::'.
                                \EncryptionHelper::randomString(4).'::'.
@@ -269,7 +271,7 @@ class UserController extends Controller
 
             //Using the recovery key to authenticate to reset the password
             $secretkey = \EncryptionHelper::decrypt($request->input('recovery'), Auth::user()->recoverykey);
-            if($secretkey === false) {
+            if ($secretkey === false) {
                 // The secret key is not valid, return with an error msg
                 return redirect()->route('settings')
                     ->withErrors([

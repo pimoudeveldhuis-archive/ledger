@@ -48,7 +48,7 @@
                         <a href="{{ route('recovery') }}" class="btn btn-primary btn-flat">Wachtwoord vergeten<a>
                     </div>
                     <div class="col-xs-6 text-right">
-                        <button type="submit" class="btn btn-success btn-flat">Verder</button>
+                        <button type="submit" class="btn btn-success btn-flat" dusk="login-button">Verder</button>
                     </div>
                 </div>
             </form>

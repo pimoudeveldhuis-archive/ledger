@@ -196,28 +196,28 @@ class UserController extends Controller
         } elseif ($key === 'password') {
             // Update the password
             $this->validate($request, [
-                'password_old' => 'required',
-                'password_new' => 'required',
-                'password_new_check' => 'required',
+                'pwupdate_password_old' => 'required',
+                'pwupdate_password_new' => 'required',
+                'pwupdate_password_new_check' => 'required',
             ]);
 
-            if (!Hash::check($request->input('password_old'), Auth::user()->authentication->data)) {
+            if (!Hash::check($request->input('pwupdate_password_old'), Auth::user()->authentication->data)) {
                 // The old password is not correct, redirect with an error msg
                 return redirect()->route('settings')
-                    ->withErrors(['password_old' => 'Huidige wachtwoord is niet correct.'])
+                    ->withErrors(['pwupdate_password_old' => 'Huidige wachtwoord is niet correct.'])
                     ->withInput();
-            } elseif ($request->input('password_new') !== $request->input('password_new_check')) {
+            } elseif ($request->input('pwupdate_password_new') !== $request->input('pwupdate_password_new_check')) {
                 // The new password and the check are not equal, redirect with an error msg
                 return redirect()->route('settings')
                     ->withErrors([
-                        'password_new' => 'Wachtwoorden komen niet overeen.',
-                        'password_new_check' => 'Wachtwoorden komen niet overeen.',
+                        'pwupdate_password_new' => 'Wachtwoorden komen niet overeen.',
+                        'pwupdate_password_new_check' => 'Wachtwoorden komen niet overeen.',
                     ])
                     ->withInput();
             } else {
                 // Everything is correct, update the user password
                 Auth::user()->authentication->fill([
-                    'data' => Hash::make($request->input('password_new'))
+                    'data' => Hash::make($request->input('pwupdate_password_new'))
                 ])->save();
 
                 // Redirect back with the success msg

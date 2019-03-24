@@ -59,13 +59,13 @@
                     </div>
 
                     <div class="box-body">
-                        @include('helpers.password', ['id' => 'password_old', 'name' => 'Huidige wachtwoord'])
-                        @include('helpers.password', ['id' => 'password_new', 'name' => 'Nieuwe Wachtwoord'])
-                        @include('helpers.password', ['id' => 'password_new_check', 'name' => 'Nieuwe Wachtwoord (controle)'])
+                        @include('helpers.password', ['id' => 'pwupdate_password_old', 'name' => 'Huidige wachtwoord'])
+                        @include('helpers.password', ['id' => 'pwupdate_password_new', 'name' => 'Nieuwe Wachtwoord'])
+                        @include('helpers.password', ['id' => 'pwupdate_password_new_check', 'name' => 'Nieuwe Wachtwoord (controle)'])
                     </div>
 
                     <div class="box-footer">
-                        <button name="submit" type="submit" value="edit" class="btn btn-success">Wijzigen</button>
+                        <button name="pwupdate_submit" type="submit" value="edit" class="btn btn-success" dusk="pwupdate-button">Wijzigen</button>
                         <a href="{{ route('settings') }}" class="btn btn-info">Annuleren</a>
                     </div>
                 </form>

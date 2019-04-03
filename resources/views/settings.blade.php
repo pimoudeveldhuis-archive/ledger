@@ -18,12 +18,12 @@
                     </div>
 
                     <div class="box-body">
-                        @include('helpers.input', ['id' => 'email', 'name' => 'Email adres', 'value' => Auth::user()->email])
-                        @include('helpers.password', ['id' => 'password', 'name' => 'Wachtwoord (ter controle)'])
+                        @include('helpers.input', ['id' => 'emupdate_email', 'name' => 'Email adres', 'value' => Auth::user()->email])
+                        @include('helpers.password', ['id' => 'emupdate_password', 'name' => 'Wachtwoord (ter controle)'])
                     </div>
 
                     <div class="box-footer">
-                        <button name="submit" type="submit" value="edit" class="btn btn-success">Wijzigen</button>
+                        <button name="emupdate_submit" type="submit" value="edit" class="btn btn-success" dusk="emupdate-button">Wijzigen</button>
                         <a href="{{ route('settings') }}" class="btn btn-info">Annuleren</a>
                     </div>
                 </form>
@@ -38,11 +38,11 @@
                     </div>
 
                     <div class="box-body">
-                        @include('helpers.password', ['id' => 'password', 'name' => 'Wachtwoord (ter controle)'])
+                        @include('helpers.password', ['id' => 'recreset_password', 'name' => 'Wachtwoord (ter controle)'])
                     </div>
 
                     <div class="box-footer">
-                        <button name="submit" type="submit" value="edit" class="btn btn-success">Reset</button>
+                        <button name="recreset_submit" type="submit" value="edit" class="btn btn-success" dusk="recreset-button">Reset</button>
                         <a href="{{ route('settings') }}" class="btn btn-info">Annuleren</a>
                     </div>
                 </form>
@@ -80,13 +80,13 @@
                     </div>
 
                     <div class="box-body">
-                        @include('helpers.password', ['id' => 'recovery', 'name' => 'Herstelcode'])
-                        @include('helpers.password', ['id' => 'password_new', 'name' => 'Nieuwe Wachtwoord'])
-                        @include('helpers.password', ['id' => 'password_new_check', 'name' => 'Nieuwe Wachtwoord (controle)'])
+                        @include('helpers.password', ['id' => 'pwreset_recovery', 'name' => 'Herstelcode'])
+                        @include('helpers.password', ['id' => 'pwreset_password_new', 'name' => 'Nieuwe Wachtwoord'])
+                        @include('helpers.password', ['id' => 'pwreset_password_new_check', 'name' => 'Nieuwe Wachtwoord (controle)'])
                     </div>
 
                     <div class="box-footer">
-                        <button name="submit" type="submit" value="edit" class="btn btn-success">Wijzigen</button>
+                        <button name="pwreset_submit" type="submit" value="edit" class="btn btn-success" dusk="pwreset-button">Wijzigen</button>
                         <a href="{{ route('settings') }}" class="btn btn-info">Annuleren</a>
                     </div>
                 </form>

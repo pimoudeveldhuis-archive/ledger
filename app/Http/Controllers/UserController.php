@@ -169,28 +169,29 @@ class UserController extends Controller
         if ($key === 'email') {
             // Update the email address
             $this->validate($request, [
-                'email' => 'required|email',
-                'password' => 'required',
+                'emupdate_email' => 'required|email',
+                'emupdate_password' => 'required',
             ]);
     
             // Before updating the email address, make sure the password is correct
-            if (Hash::check($request->input('password'), Auth::user()->authentication->data)) {
+            if (Hash::check($request->input('emupdate_password'), Auth::user()->authentication->data)) {
                 // Update the user email
                 Auth::user()->fill([
-                    'email' => $request->input('email')
+                    'email' => $request->input('emupdate_email'),
+                    'email_hash' => hash('sha256', $request->input('emupdate_email')),
                 ])->save();
 
                 // Redirect back with a success msg
                 return redirect()->route('settings')->with([
                     '_alert' => [
                         'type' => 'success',
-                        'msg' => 'Email adres gewijzigd in '. $request->input('email') .'.'
+                        'msg' => 'Email adres gewijzigd in '. $request->input('emupdate_email') .'.'
                     ]
                 ]);
             } else {
                 // Return with a error, as the password wasn't correct
                 return redirect()->route('settings')
-                    ->withErrors(['password' => 'Huidige wachtwoord is niet correct.'])
+                    ->withErrors(['emupdate_password' => 'Huidige wachtwoord is niet correct.'])
                     ->withInput();
             }
         } elseif ($key === 'password') {
@@ -231,11 +232,11 @@ class UserController extends Controller
         } elseif ($key === 'recovery_reset') {
             // Using the password to authenticate, create a new recovery key
             $this->validate($request, [
-                'password' => 'required',
+                'recreset_password' => 'required',
             ]);
-    
+
             // Check whether the current password is correct and whether there is a secretkey in session currently
-            if (Hash::check($request->input('password'), Auth::user()->authentication->data)
+            if (Hash::check($request->input('recreset_password'), Auth::user()->authentication->data)
                 && session('secretkey') !== null
             ) {
                 // Create a new recovery key
@@ -259,37 +260,37 @@ class UserController extends Controller
             } else {
                 // The current password is not correct
                 return redirect()->route('settings')
-                    ->withErrors(['password' => 'Huidige wachtwoord is niet correct.'])
+                    ->withErrors(['recreset_password' => 'Huidige wachtwoord is niet correct.'])
                     ->withInput();
             }
         } elseif ($key === 'password_reset') {
             $this->validate($request, [
-                'recovery' => 'required',
-                'password_new' => 'required',
-                'password_new_check' => 'required',
+                'pwreset_recovery' => 'required',
+                'pwreset_password_new' => 'required',
+                'pwreset_password_new_check' => 'required',
             ]);
 
             //Using the recovery key to authenticate to reset the password
-            $secretkey = \EncryptionHelper::decrypt($request->input('recovery'), Auth::user()->recoverykey);
+            $secretkey = \EncryptionHelper::decrypt($request->input('pwreset_recovery'), Auth::user()->recoverykey);
             if ($secretkey === false) {
                 // The secret key is not valid, return with an error msg
                 return redirect()->route('settings')
                     ->withErrors([
-                        'recovery' => 'De herstelcode is niet correct.',
+                        'pwreset_recovery' => 'De herstelcode is niet correct.',
                     ])
                     ->withInput();
-            } elseif ($request->input('password_new') !== $request->input('password_new_check')) {
+            } elseif ($request->input('pwreset_password_new') !== $request->input('pwreset_password_new_check')) {
                 // The new password and the check are not equal, return with an error msg
                 return redirect()->route('settings')
                     ->withErrors([
-                        'password_new' => 'Wachtwoorden komen niet overeen.',
-                        'password_new_check' => 'Wachtwoorden komen niet overeen.',
+                        'pwreset_password_new' => 'Wachtwoorden komen niet overeen.',
+                        'pwreset_password_new_check' => 'Wachtwoorden komen niet overeen.',
                     ])
                     ->withInput();
             } else {
                 // No errors, hash and store the new password
                 Auth::user()->authentication->fill([
-                    'data' => Hash::make($request->input('password_new'))
+                    'data' => Hash::make($request->input('pwreset_password_new'))
                 ])->save();
 
                 // Return with success msg
